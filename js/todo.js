@@ -23,8 +23,12 @@ function paintToDo(newTodo) {
   const button = document.createElement("button");
   button.innerText = "❌";
   button.addEventListener("click", deleteTodo);
+  const link = document.createElement("button");
+  link.innerText = "🔗";
+  link.addEventListener("click", NewTab);
   const span = document.createElement("span");
   span.innerText = newTodo.text;
+  li.appendChild(link);
   li.appendChild(button);
   li.appendChild(span);
   todoList.appendChild(li);
@@ -50,4 +54,11 @@ if (savedToDos) {
   const parsedToDos = JSON.parse(savedToDos);
   toDos = parsedToDos;
   parsedToDos.forEach(paintToDo);
+}
+
+function NewTab(event) {
+  const li = event.target.parentElement;
+  let s = li.innerText;
+  s = s.slice(3);
+  chrome.runtime.sendMessage({ action: "openURL", url: s });
 }
